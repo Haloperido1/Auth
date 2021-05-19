@@ -20,11 +20,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.*;
+import java.util.stream.Collector;
 
 @Controller
 public class MainController {
@@ -65,14 +64,14 @@ public class MainController {
     ) throws IOException {
         message.setAuthor(user);
 
-//        if(bindingResult.hasErrors()){
-//            Collector<FieldError, ?, Map<String, String>> collector =
-//                    Collectors.toMap( fieldError -> fieldError.getField() + "Error",
-//                            FieldError::getDefaultMessage);
-//            Map<String, String> errorMap = bindingResult.getFieldError().stream().collect(collector);
-//            model.mergeAttributes("message", errorMap)
-//        }
-//        else {
+        if(bindingResult.hasErrors()){
+
+            Map<String, String> errorMap = ControllerUtils.getErrors(bindingResult);
+
+            model.mergeAttributes(errorMap);
+            model.addAttribute("message", message);
+        }
+        else {
             if (file != null && !file.getOriginalFilename().isEmpty()) {
                 File uploadDir = new File(uploadPath);
 
@@ -88,8 +87,10 @@ public class MainController {
                 message.setFilename(resultFilename);
             }
 
+            model.addAttribute("message", null);
+
             messageRepo.save(message);
-//        }
+        }
 
         Iterable<Message> messages = messageRepo.findAll();
 
@@ -97,4 +98,6 @@ public class MainController {
 
         return "main";
     }
+
+
 }

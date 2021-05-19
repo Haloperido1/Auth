@@ -22,7 +22,11 @@ public class Message {
     @NotBlank(message = "Message is empty")
     @Length(max = 2048, message = "Message too long(>2kb)")
     private String text;
+
+    //notblank?
+    @Length(max = 255, message = "Tag is too long(>255b)")
     private String tag;
+
     private String filename;
 
     @ManyToOne(fetch = FetchType.EAGER)

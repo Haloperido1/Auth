@@ -6,11 +6,23 @@
 
         <div class="mb-3">
             <label for="inputNickname" class="form-label">Nickname</label>
-            <input type="text" class="form-control" id="inputNickname" name="username">
+            <input type="text" class="form-control ${(usernameError??)?string('is-invalid', '')}"
+                   id="inputNickname" name="username" value="<#if user??>user.username</#if>">
+            <#if usernameError??>
+                <div class="invalid-feedback">
+                    ${usernameError}
+                </div>
+            </#if>
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+            <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')}"
+                   id="exampleInputPassword1" name="password">
+            <#if passwordError??>
+                <div class="invalid-feedback">
+                    ${passwordError}
+                </div>
+            </#if>
         </div>
         <div class="mb-3">
             <button type="submit" class="btn btn-primary">Submit</button>

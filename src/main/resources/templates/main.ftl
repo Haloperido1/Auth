@@ -12,14 +12,27 @@
     <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         Add new message
     </a>
-    <div class="collapse" id="collapseExample">
+    <div class="collapse <#if message??>show</#if>" id="collapseExample">
         <div class="form-group mt-3 mb-3">
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <input type="text" name="text" placeholder="Введите сообщение" class="form-control" />
+                    <input type="text" name="text" placeholder="Введите сообщение"
+                           class="form-control ${(textError??)?string('is-invalid', '')}"
+                            value="<#if message??> ${message.text} </#if>"/>
+                    <#if textError??>
+                    <div class="invalid-feedback">
+                        ${textError}
+                    </div>
+                    </#if>
                 </div>
                 <div class="form-group mt-3">
-                    <input type="text" name="tag" placeholder="Тэг" class="form-control">
+                    <input type="text" name="tag" placeholder="Тэг" class="form-control"
+                           value="<#if message??> ${message.tag} </#if>">
+                    <#if tagError??>
+                        <div class="invalid-feedback">
+                            ${tagError}
+                        </div>
+                    </#if>
                 </div>
                 <div class="form-group mt-3">
                     <input type="file" name="file" class="form-control">
@@ -40,8 +53,8 @@
             <div class="card my-3 mx-3" style="width: 18rem;">
                 <div class="card-body">
                     <div>
-                        <h5 class="card-title">${message.text}<h5>
-                        <h6 class="card-subtitle mb-2 text-muted">${message.authorName}<h6>
+                        <h5 class="card-title">${message.text}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${message.authorName}</h6>
                         <p class="card-text">${message.tag}</p>
                         <div>
                         <#if message.filename??>
