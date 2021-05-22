@@ -12,6 +12,9 @@
                     <a class="nav-link active" href="/">Home</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link active" href="/documents">Documents</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link active" href="/main">Messages</a>
                 </li>
                 <#if isAdmin>
